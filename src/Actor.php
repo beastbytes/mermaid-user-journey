@@ -14,6 +14,7 @@ final class Actor
     {
     }
 
+    /** @internal */
     public function getName(): string
     {
         return $this->name;
