@@ -9,9 +9,12 @@ declare(strict_types=1);
 namespace BeastBytes\Mermaid\UserJourney;
 
 use BeastBytes\Mermaid\Mermaid;
+use BeastBytes\Mermaid\RenderItemsTrait;
 
 final class UserJourney
 {
+    use RenderItemsTrait;
+
     private const TYPE = 'journey';
 
     /** @var Section[] $sections */
@@ -41,10 +44,7 @@ final class UserJourney
 
         $output[] = self::TYPE;
         $output[] = Mermaid::INDENTATION . 'title ' . $this->title;
-
-        foreach ($this->sections as $section) {
-            $output[] = $section->render(Mermaid::INDENTATION);
-        }
+        $output[] = $this->renderItems($this->sections, '');
 
         return Mermaid::render($output);
     }

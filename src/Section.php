@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace BeastBytes\Mermaid\UserJourney;
 
-use BeastBytes\Mermaid\Mermaid;
+use BeastBytes\Mermaid\RenderItemsTrait;
 
 final class Section
 {
-    private const SECTION = 'section';
+    use RenderItemsTrait;
 
     /** @var Task[] $tasks */
     private array $tasks = [];
@@ -35,15 +35,13 @@ final class Section
         return $new;
     }
 
+    /** @internal */
     public function render(string $indentation): string
     {
         $output = [];
-        $output[] = self::SECTION . ' ' . $this->name;
+        $output[] = $indentation . 'section ' . $this->name;
+        $output[] = $this->renderItems($this->tasks, $indentation);
 
-        foreach ($this->tasks as $task) {
-            $output[] = $task->render($indentation . Mermaid::INDENTATION);
-        }
-
-        return $indentation . implode("\n", $output);
+        return implode("\n", $output);
     }
 }

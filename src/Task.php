@@ -40,6 +40,7 @@ final class Task
         return $new;
     }
 
+    /** @internal */
     public function render(string $indentation): string
     {
         $output = [];
