@@ -9,9 +9,11 @@ declare(strict_types=1);
 namespace BeastBytes\Mermaid\UserJourney;
 
 use BeastBytes\Mermaid\Mermaid;
+use BeastBytes\Mermaid\MermaidInterface;
 use BeastBytes\Mermaid\RenderItemsTrait;
+use Stringable;
 
-final class UserJourney
+final class UserJourney implements MermaidInterface, Stringable
 {
     use RenderItemsTrait;
 
@@ -22,6 +24,11 @@ final class UserJourney
 
     public function __construct(private readonly string $title)
     {
+    }
+
+    public function __toString(): string
+    {
+        return $this->render();
     }
 
     public function addSection(Section ...$section): self
