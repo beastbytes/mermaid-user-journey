@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace BeastBytes\Mermaid\UserJourney;
 
+use BeastBytes\Mermaid\CommentTrait;
 use BeastBytes\Mermaid\Mermaid;
 use BeastBytes\Mermaid\MermaidInterface;
 use BeastBytes\Mermaid\RenderItemsTrait;
@@ -15,6 +16,7 @@ use Stringable;
 
 final class UserJourney implements MermaidInterface, Stringable
 {
+    use CommentTrait;
     use RenderItemsTrait;
 
     private const TYPE = 'journey';
@@ -49,9 +51,10 @@ final class UserJourney implements MermaidInterface, Stringable
     {
         $output = [];
 
+        $this->renderComment('', $output);
         $output[] = self::TYPE;
         $output[] = Mermaid::INDENTATION . 'title ' . $this->title;
-        $output[] = $this->renderItems($this->sections, '');
+        $this->renderItems($this->sections, '', $output);
 
         return Mermaid::render($output);
     }

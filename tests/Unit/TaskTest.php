@@ -3,6 +3,8 @@
 use BeastBytes\Mermaid\UserJourney\Actor;
 use BeastBytes\Mermaid\UserJourney\Task;
 
+defined('COMMENT') or define('COMMENT', 'comment');
+
 test('task', function () {
     $alice = new Actor('Alice');
     $bob = new Actor('Bob');
@@ -10,8 +12,8 @@ test('task', function () {
 
     $task = new Task('Task', 2);
 
-    expect($task->withActor($alice)->render(''))
-        ->toBe('Task: 2: Alice')
+    expect($task->withActor($alice)->withComment(COMMENT)->render(''))
+        ->toBe('%% ' . COMMENT  . "\nTask: 2: Alice")
     ;
 
     $task = $task->withActor($bob, $charlie);

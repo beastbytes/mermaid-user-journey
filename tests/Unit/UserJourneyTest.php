@@ -5,6 +5,8 @@ use BeastBytes\Mermaid\UserJourney\Section;
 use BeastBytes\Mermaid\UserJourney\Task;
 use BeastBytes\Mermaid\UserJourney\UserJourney;
 
+defined('COMMENT') or define('COMMENT', 'comment');
+
 test('user journey', function () {
     $alice = new Actor('Alice');
     $bob = new Actor('Bob');
@@ -21,10 +23,14 @@ test('user journey', function () {
     $section3 = (new Section('Section 3'))->withTask($task1, $task4, $task5);
     $section4 = (new Section('Section 4'))->withTask($task2, $task3);
 
-    $journey = (new UserJourney('User Journey'))->withSection($section1, $section2);
+    $journey = (new UserJourney('User Journey'))
+        ->withSection($section1, $section2)
+        ->withComment(COMMENT)
+    ;
 
     expect($journey->render(''))
         ->toBe("<pre class=\"mermaid\">\n"
+            . '%% ' . COMMENT . "\n"
             . "journey\n"
             . "  title User Journey\n"
             . "  section Section 1\n"
@@ -40,6 +46,7 @@ test('user journey', function () {
 
     expect($journey->addSection($section3, $section4)->render(''))
         ->toBe("<pre class=\"mermaid\">\n"
+               . '%% ' . COMMENT . "\n"
                . "journey\n"
                . "  title User Journey\n"
                . "  section Section 1\n"

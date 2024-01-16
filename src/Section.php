@@ -8,10 +8,12 @@ declare(strict_types=1);
 
 namespace BeastBytes\Mermaid\UserJourney;
 
+use BeastBytes\Mermaid\CommentTrait;
 use BeastBytes\Mermaid\RenderItemsTrait;
 
 final class Section
 {
+    use CommentTrait;
     use RenderItemsTrait;
 
     /** @var Task[] $tasks */
@@ -39,8 +41,10 @@ final class Section
     public function render(string $indentation): string
     {
         $output = [];
+
+        $this->renderComment($indentation, $output);
         $output[] = $indentation . 'section ' . $this->name;
-        $output[] = $this->renderItems($this->tasks, $indentation);
+        $this->renderItems($this->tasks, $indentation, $output);
 
         return implode("\n", $output);
     }

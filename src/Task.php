@@ -8,10 +8,13 @@ declare(strict_types=1);
 
 namespace BeastBytes\Mermaid\UserJourney;
 
+use BeastBytes\Mermaid\CommentTrait;
 use InvalidArgumentException;
 
 final class Task
 {
+    use CommentTrait;
+
     /** @var Actor[] $actors */
     private array $actors = [];
 
@@ -43,10 +46,6 @@ final class Task
     /** @internal */
     public function render(string $indentation): string
     {
-        $output = [];
-        $output[] = $this->name;
-        $output[] = $this->score;
-
         $actors = [];
         foreach ($this->actors as $actor) {
             $actors[] = $actor->getName();
@@ -56,8 +55,11 @@ final class Task
             }
         }
 
-        $output[] = implode(',', $actors);
+        $output = [];
 
-        return $indentation . implode(': ', $output);
+        $this->renderComment($indentation, $output);
+        $output[] = $indentation . $this->name . ': ' . $this->score . ': ' . implode(',', $actors);
+
+        return implode("\n", $output);
     }
 }
