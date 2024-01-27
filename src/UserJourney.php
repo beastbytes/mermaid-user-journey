@@ -47,7 +47,7 @@ final class UserJourney implements MermaidInterface, Stringable
         return $new;
     }
 
-    public function render(): string
+    public function render(array $attributes = []): string
     {
         $output = [];
 
@@ -56,6 +56,6 @@ final class UserJourney implements MermaidInterface, Stringable
         $output[] = Mermaid::INDENTATION . 'title ' . $this->title;
         $this->renderItems($this->sections, '', $output);
 
-        return Mermaid::render($output);
+        return Mermaid::render($output, $attributes);
     }
 }
